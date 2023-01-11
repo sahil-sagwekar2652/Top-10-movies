@@ -1,0 +1,92 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,700">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+  <style>
+      ul {
+          list-style-type: None;
+      }
+
+      li {
+          margin: 10px;
+      }
+
+      a.button {
+          padding: 10px;
+          align: centre;
+      }
+
+      p {
+          font-size: 18px;
+      }
+
+      p.overview {
+          font-size: 13px;
+      }
+
+      p.review {
+          font-size: 16px;
+      }
+
+<!--      div.wrapper {-->
+<!--          display: flex;-->
+<!--          height: 100vh;-->
+<!--          grid-template-columns: minmax(250px, 1fr) 4fr;-->
+<!--          grid-template-rows: 1fr auto;-->
+<!--          gap: 15px;-->
+<!--      }-->
+
+  </style>
+{% endblock %}
+
+{% block title %}My Top 10 Movies{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1 class="heading">My Top 10 Movies</h1>
+  <p class="description">These are my all time favourite movies.</p>
+<!--    <ul>-->
+    <div class="wrapper">
+    {% for movie in movies_data: %}
+<!--       <li>-->
+          <div class="card" >
+            <div class="front" style="background-image: url('{{ movie.img_url }}');">
+                <p class="large">{{ movies_data.index(movie) + 1 }}</p>
+            </div>
+            <div class="back">
+              <div>
+            <div class="title">{{ movie.title }} <span class="release_date">({{ movie.year }})</span></div>
+                <div class="rating">
+                    <label>{{ movie.rating }}</label>
+                  <i class="fas fa-star star"></i>
+                </div>
+                  {% if movie.review != "": %}
+                    <p class="review">"{{ movie.review }}"</p>
+                  {% endif %}
+                <p class="overview">
+                    {{ movie.description }}
+                </p>
+                {% set id = movie.id %}
+                <a href="{{ url_for('update', movie_title=movie.title) }}" class="button">Update</a>
+                <a href="{{ url_for('delete', movie_id=movie.id) }}" class="button delete-button">Delete</a>
+
+              </div>
+            </div>
+          </div>
+<!--       </li>-->
+      {% endfor %}
+<!--    </ul>-->
+    </div>
+  </div>
+
+<div class="container text-center add">
+<a href="{{ url_for('add') }}" class="button">Add Movie</a>
+</div>
+
+{% endblock %}
